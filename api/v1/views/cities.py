@@ -8,7 +8,8 @@ from models import storage
 from api.v1.views import app_views
 
 
-@app_views.route('states/<state_id>/cities/', strict_slashes=False)
+@app_views.route('states/<state_id>/cities/',
+                 methods=["GET"], strict_slashes=False)
 def city(state_id=None):
     """display the city and cities listed in alphabetical order"""
     state = storage.get(State, state_id)
