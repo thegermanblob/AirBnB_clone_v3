@@ -43,7 +43,7 @@ def delete_user(user_id=None):
 
 
 @app_views.route('/users/', methods=["POST"], strict_slashes=False)
-def post_state():
+def post_user():
     """ Creates given json obj in db with given id """
     if request.is_json is False:
         return Response("Not a JSON", status=400)
