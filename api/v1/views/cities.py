@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """ Handles all state objects for the api """
-import re
 from flask import jsonify, abort, request, Response
 from sqlalchemy.sql.expression import insert
 from models.city import City
@@ -59,7 +58,7 @@ def post_city():
 @app_views.route('/cities/<city_id>', methods=["PUT"], strict_slashes=False)
 def put_city(city_id=None):
     """ Updates a state object with the given id and json """
-    city = storage.get(city, city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
     if request.is_json is False:
