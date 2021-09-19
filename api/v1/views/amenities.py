@@ -9,19 +9,19 @@ from api.v1.views import app_views
 
 
 @app_views.route('/amenities/', methods=["GET"], strict_slashes=False)
-def states():
-    """display the states and cities listed in alphabetical order"""
+def amenities():
+    """display the amenities listed in alphabetical order"""
     amenities = storage.all(Amenity)
     new_dict = []
-    for amenity in amenties:
+    for amenity in amenities:
         new_dict.append(amenities[amenity].to_dict())
     return jsonify(new_dict)
 
 
 @app_views.route('/amenities/<amenity_id>', methods=["GET"],
                  strict_slashes=False)
-def state_by_id(state_id=None):
-    """ gets a state by the given state_id """
+def amenity_by_id(amenity_id=None):
+    """ gets a amenity by the given amenity_id """
     amenity = storage.get(Amenity, amenity_id)
     if amenity is not None:
         amenity = amenity.to_dict()
@@ -32,8 +32,8 @@ def state_by_id(state_id=None):
 
 @app_views.route('/amenities/<amenity_id>', methods=["DELETE"],
                  strict_slashes=False)
-def delete_state(amenity_id=None):
-    """ Deletes state by given id """
+def delete_amenity(amenity_id=None):
+    """ Deletes amenity by given id """
     amenity = storage.get(Amenity, amenity_id)
     if amenity is not None:
         storage.delete(amenity)
@@ -44,7 +44,7 @@ def delete_state(amenity_id=None):
 
 
 @app_views.route('/amenities/', methods=["POST"], strict_slashes=False)
-def post_state():
+def post_amenity():
     """ Creates given json obj in db with given id """
     if request.is_json is False:
         return Response("Not a JSON", status=400)
@@ -57,8 +57,8 @@ def post_state():
 
 
 @app_views.route('/amenities/<amenity_id>', methods=["PUT"], strict_slashes=False)
-def put_state(state_id=None):
-    """ Updates a state object with the given id and json """
+def put_amenity(amenity_id=None):
+    """ Updates a amenity object with the given id and json """
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
@@ -66,6 +66,6 @@ def put_state(state_id=None):
         return Response("Not a JSON", status=400)
     new_amenity_dict = request.get_json()
     for key, value in new_amenity_dict.items():
-        setattr(state, key, value)
+        setattr(amenity, key, value)
     amenity.save()
     return jsonify(amenity.to_dict()), 200
