@@ -24,6 +24,25 @@ class FileStorage:
     # dictionary - empty but will store all objects by <class name>.id
     __objects = {}
 
+    def get(self, cls, id):
+        """
+        Retrieves a single element based on cls and id
+        it returns this obj
+        """
+        key = None
+        if cls in classes:
+            key = cls + '.' + id
+        elif cls in classes.values():
+            key = cls.__class__.__name__ + '.' + id
+        return self.__objects.get(key)
+
+    def count(self, cls=None):
+        """
+        Counts the objects of a class
+        and returns this number
+        """
+        return len(self.all(cls))
+
     def all(self, cls=None):
         """returns the dictionary __objects"""
         if cls is not None:
@@ -59,7 +78,7 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """delete obj from __objects if it’s inside"""
+        """ delete obj from __objects if its inside """
         if obj is not None:
             key = obj.__class__.__name__ + '.' + obj.id
             if key in self.__objects:
