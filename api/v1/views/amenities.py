@@ -56,7 +56,8 @@ def post_amenity():
     return jsonify(instance.to_dict()), 201
 
 
-@app_views.route('/amenities/<amenity_id>', methods=["PUT"], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=["PUT"],
+                 strict_slashes=False)
 def put_amenity(amenity_id=None):
     """ Updates a amenity object with the given id and json """
     amenity = storage.get(Amenity, amenity_id)
