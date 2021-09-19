@@ -3,17 +3,18 @@
 from flask import jsonify, abort, request, Response
 from sqlalchemy.sql.expression import insert
 from models.city import City
+from models.state import State
 from models import storage
 from api.v1.views import app_views
 
 
-@app_views.route('/cities/', strict_slashes=False)
-def city():
+@app_views.route('states/<state_id>/cities/', strict_slashes=False)
+def city(state_id=None):
     """display the city and cities listed in alphabetical order"""
-    cities = storage.all(City)
+    state = storage.get(State, state_id)
     new_dict = []
-    for city in cities:
-        new_dict.append(cities[city].to_dict())
+    for city in state.cities:
+        new_dict.append(city.to_dict())
     return jsonify(new_dict)
 
 
@@ -42,14 +43,18 @@ def delete_city(city_id=None):
         abort(404)
 
 
-@app_views.route('/cities/', methods=["POST"], strict_slashes=False)
-def post_city():
+@app_views.route('/states/<state_id>/cities/', methods=["POST"], strict_slashes=False)
+def post_city(state_id=None):
     """ Creates given json obj in db with given id """
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
     if request.is_json is False:
         return Response("Not a JSON", status=400)
     new_city_dict = request.get_json()
     if "name" not in new_city_dict.keys():
         return Response("Missing name", status=400)
+    new_city_dict['state_id'] = state.id
     instance = City(**new_city_dict)
     instance.save()
     return jsonify(instance.to_dict()), 201
