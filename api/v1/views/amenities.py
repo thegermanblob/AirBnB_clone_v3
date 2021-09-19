@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-""" Handles all state objects for the api """
+""" Handles all amenity objects for the api """
 import re
 from flask import jsonify, abort, request, Response
 from sqlalchemy.sql.expression import insert
-from models.state import Amenity
+from models.amenity import Amenity
 from models import storage
 from api.v1.views import app_views
 
@@ -56,7 +56,8 @@ def post_amenity():
     return jsonify(instance.to_dict()), 201
 
 
-@app_views.route('/amenities/<amenity_id>', methods=["PUT"], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=["PUT"],
+                 strict_slashes=False)
 def put_amenity(amenity_id=None):
     """ Updates a amenity object with the given id and json """
     amenity = storage.get(Amenity, amenity_id)
