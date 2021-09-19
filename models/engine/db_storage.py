@@ -57,7 +57,13 @@ class DBStorage:
         Counts the objects of a class
         and returns this number
         """
-        return len(self.all(cls))
+        num = 0
+        if cls is None:
+            for obj_cls in classes.keys():
+                num += self.__session.query(classes[obj_cls]).count()
+        else:
+            num = self.__session.query(cls).count()
+        return num
 
     def all(self, cls=None):
         """query on the current database session"""
