@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-""" Handles all state objects for the api """
+""" Handles all amenity objects for the api """
 import re
 from flask import jsonify, abort, request, Response
 from sqlalchemy.sql.expression import insert
-from models.state import Amenity
+from models.amenity import Amenity
 from models import storage
 from api.v1.views import app_views
 
