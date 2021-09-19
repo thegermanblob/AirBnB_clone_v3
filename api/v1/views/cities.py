@@ -13,6 +13,8 @@ from api.v1.views import app_views
 def city(state_id=None):
     """display the city and cities listed in alphabetical order"""
     state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
     new_dict = []
     for city in state.cities:
         new_dict.append(city.to_dict())
