@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Handles all state objects for the api """
+from models.user import User
 from flask import jsonify, abort, request, Response
 from sqlalchemy.sql.expression import insert
 from models.city import City
@@ -56,8 +57,14 @@ def post_place(city_id=None):
     if request.is_json is False:
         return Response("Not a JSON", status=400)
     new_place_dict = request.get_json()
-    if "name" not in new_place_dict.keys():
+    keys = new_place_dict.keys()
+    if "name" not in keys:
         return Response("Missing name", status=400)
+    if "user_id" not in keys:
+        return Response("Missing user_id", status=400)
+    user = storage.get(User, new_place_dict["user_id"])
+    if user is None:
+        abort(404)
     new_place_dict['city_id'] = city.id
     instance = Place(**new_place_dict)
     instance.save()
