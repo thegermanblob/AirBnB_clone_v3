@@ -1,5 +1,6 @@
 #!/usr/bin/python
 """ holds class City"""
+from models.place import Place
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -22,3 +23,14 @@ class City(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes city"""
         super().__init__(*args, **kwargs)
+
+    if models.storage_t != "db":
+        @property
+        def places(self):
+            """getter for list of city instances related to the state"""
+            place_list = []
+            all_place = models.storage.all(Place)
+            for place in all_place.values():
+                if place.city_id == self.id:
+                    place_list.append(place)
+            return place_list
