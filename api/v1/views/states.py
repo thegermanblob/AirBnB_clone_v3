@@ -7,6 +7,7 @@ from models.state import State
 from models import storage
 from api.v1.views import app_views
 
+
 @app_views.route('/states/', strict_slashes=False)
 def states():
     """display the states and cities listed in alphabetical order"""
@@ -14,7 +15,8 @@ def states():
     new_dict = []
     for state in states:
         new_dict.append(states[state].to_dict())
-    return jsonify(new_dict) 
+    return jsonify(new_dict)
+
 
 @app_views.route('/states/<state_id>', methods=["GET"], strict_slashes=False)
 def state_by_id(state_id=None):
@@ -26,14 +28,17 @@ def state_by_id(state_id=None):
     else:
         abort(404)
 
-@app_views.route('/states/<state_id>', methods=["DELETE"], strict_slashes=False)
+
+@app_views.route('/states/<state_id>', methods=["DELETE"],
+                 strict_slashes=False)
 def delete_state(state_id=None):
     """ Deletes state by given id """
-    state =  storage.get(State, state_id)
+    state = storage.get(State, state_id)
     if state is not None:
         storage.delete(state)
     else:
         abort(404)
+
 
 @app_views.route('/states/', methods=["POST"], strict_slashes=False)
 def post_state():
@@ -46,8 +51,6 @@ def post_state():
     instance = State(**new_state_dict)
     instance.save()
     return jsonify(instance.to_dict()), 201
-
-
 
 
 @app_views.route('/states/<state_id>', methods=["PUT"], strict_slashes=False)
