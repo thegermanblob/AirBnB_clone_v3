@@ -57,7 +57,7 @@ def post_user():
     return jsonify(instance.to_dict()), 201
 
 
-@app_views.route('/user/<user_id>', methods=["PUT"], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=["PUT"], strict_slashes=False)
 def put_user(user_id=None):
     """ Updates a state object with the given id and json """
     user = storage.get(User, user_id)
