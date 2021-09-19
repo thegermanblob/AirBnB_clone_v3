@@ -19,10 +19,12 @@ def status():
     bob = {'status': 'OK'}
     return jsonify(bob)
 
+
 @app_views.route('/stats', strict_slashes=False)
 def stats():
     """ Returns json of stats of number of objs """
-    result = {"ammenities": storage.count(Amenity), "cities": storage.count(City),
-              "places": storage.count(Place), "reviews": storage.count(Review),
-              "states": storage.count(State), "users": storage.count(User)}
+    result = {"ammenities": storage.count(Amenity),
+              "cities": storage.count(City), "places": storage.count(Place),
+              "reviews": storage.count(Review), "states": storage.count(State),
+              "users": storage.count(User)}
     return jsonify(result)
