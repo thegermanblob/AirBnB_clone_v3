@@ -18,7 +18,8 @@ def states():
     return jsonify(new_dict)
 
 
-@app_views.route('/states/<state_id>', methods=["GET"], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=["GET"],
+                 strict_slashes=False)
 def state_by_id(state_id=None):
     """ gets a state by the given state_id """
     state = storage.get(State, state_id)
@@ -36,6 +37,8 @@ def delete_state(state_id=None):
     state = storage.get(State, state_id)
     if state is not None:
         storage.delete(state)
+        storage.save()
+        return {}, 200
     else:
         abort(404)
 
@@ -66,4 +69,3 @@ def put_state(state_id=None):
         setattr(state, key, value)
     state.save()
     return jsonify(state.to_dict()), 200
-    # TODO: setatr for the update
