@@ -1,35 +1,29 @@
 #!/usr/bin/python3
-"""
-Api for AirBnB_clone
-"""
+"""Api for AirBnB_clone"""
 from api.v1.views import app_views
 from flask import Blueprint, Flask, jsonify
 from models import storage
 from os import getenv
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+CORS(app, resources={"/*", {"origins": ["0.0.0.0"]}})
 
 
 @app.teardown_appcontext
 def teardown(exception=None):
-    """
-    Application teardown
-    """
+    """Application teardown"""
     storage.close()
 
 
 @app.errorhandler(404)
 def page_not_found(exception=None):
-    """
-    Display an jsonify error
-    """
+    """Display an jsonify error"""
     return jsonify({"error": "Not found"}), 404
 
 if __name__ == '__main__':
-    """
-    Execute api
-    """
+    """Execute api"""
     host = getenv('HBNB_API_HOST')
     if (host is None):
         host = '0.0.0.0'
