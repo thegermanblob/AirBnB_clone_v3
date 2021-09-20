@@ -22,7 +22,6 @@ def place(city_id=None):
         new_dict.append(place.to_dict())
     return jsonify(new_dict)
 
-
 @app_views.route('/places/<place_id>', methods=["GET"],
                  strict_slashes=False)
 def place_by_id(place_id=None):
