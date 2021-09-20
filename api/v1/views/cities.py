@@ -46,7 +46,8 @@ def delete_city(city_id=None):
         abort(404)
 
 
-@app_views.route('/states/<state_id>/cities/', methods=["POST"], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities/',
+                 methods=["POST"], strict_slashes=False)
 def post_city(state_id=None):
     """ Creates given json obj in db with given id """
     state = storage.get(State, state_id)
