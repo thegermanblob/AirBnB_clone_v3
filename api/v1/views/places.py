@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 """ Handles all state objects for the api """
-from models.user import User
-from flask import jsonify, abort, request, Response
-from sqlalchemy.sql.expression import insert
-from models.city import City
-from models.state import State
-from models.place import Place
-from models import storage
 from api.v1.views import app_views
+from flask import Response, abort, jsonify, request
+from models import storage
+from models.city import City
+from models.place import Place
+from models.state import State
+from models.user import User
+from sqlalchemy.sql.expression import insert
 
 
 @app_views.route('cities/<city_id>/places',
