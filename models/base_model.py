@@ -47,7 +47,6 @@ class BaseModel:
             self.updated_at = self.created_at
 
 
-# helllo            
     def __str__(self):
         """String representation of the BaseModel class"""
         return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
