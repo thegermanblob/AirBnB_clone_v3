@@ -5,8 +5,10 @@ from flask import Blueprint, Flask, jsonify
 from models import storage
 from os import getenv
 from flask_cors import CORS
+from flasgger import Swagger
 
 app = Flask(__name__)
+swagger =Swagger(app)
 app.register_blueprint(app_views)
 CORS(app, resources={"/*": {"origins": ["0.0.0.0"]}})
 

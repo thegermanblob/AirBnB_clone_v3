@@ -10,7 +10,13 @@ from api.v1.views import app_views
 
 @app_views.route('/states/', methods=["GET"], strict_slashes=False)
 def states():
-    """display the states and cities listed in alphabetical order"""
+    """display the states and cities listed in alphabetical order
+    ---
+    responses:
+      200:
+        description: A list of states
+        examples:
+          states: ['cali', 'Florida', 'Colorado']"""
     states = storage.all(State)
     new_dict = []
     for state in states:
@@ -58,7 +64,7 @@ def post_state():
 
 @app_views.route('/states/<state_id>', methods=["PUT"], strict_slashes=False)
 def put_state(state_id=None):
-    """ Updates a state object with the given id and json """
+    """ Updates a state object with the given id and json"""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
