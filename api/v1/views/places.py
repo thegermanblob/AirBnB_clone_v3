@@ -110,7 +110,7 @@ def post_place(city_id=None):
         return Response("Missing name", status=400)
     if "user_id" not in keys:
         return Response("Missing user_id", status=400)
-    user = storage.get(User, str(new_place_dict["user_id"]))
+    user = storage.get(User, new_place_dict.get("user_id"))
     if user is None:
         abort(404)
     new_place_dict['city_id'] = city.id
