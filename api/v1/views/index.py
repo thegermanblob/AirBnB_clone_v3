@@ -22,7 +22,25 @@ def status():
 
 @app_views.route('/stats', strict_slashes=False)
 def stats():
-    """ Returns json of stats of number of objs """
+    """
+    Display the stats listed in alphabetical order
+    ---
+    responses:
+      200:
+        description: A list of user dictionaries
+        examples:
+          states: 
+                [
+                    {
+                        "Ammenities":'<number>',
+                        "Cities":"<number",
+                        "Places":"<number>",                       
+                        "Reviews":"<number>",                       
+                        "States":"<number>",                       
+                        "Users":"<number>",                       
+                    },
+                ]
+    """
     return jsonify({
         "ammenities": storage.count(Amenity),
         "cities": storage.count(City),

@@ -13,7 +13,20 @@ from api.v1.views import app_views
 @app_views.route('cities/<city_id>/places',
                  methods=["GET"], strict_slashes=False)
 def place(city_id=None):
-    """display the city and cities listed in alphabetical order"""
+    """
+    Display the places of a given city, listed in alphabetical order
+    ---
+    responses:
+      200:
+        description: A list of all place dictionaries in the city
+        examples:
+          states: 
+                [
+                    {"name":'A morgue'},
+                    {"name":'The small house'},
+                    {"name":'My big house'},
+                ]
+    """ 
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
@@ -26,7 +39,20 @@ def place(city_id=None):
 @app_views.route('/places/<place_id>', methods=["GET"],
                  strict_slashes=False)
 def place_by_id(place_id=None):
-    """ gets a city by the given city """
+    """
+    Gets a place by the given place_id 
+    ---
+    responses:
+      200:
+        description: A json dictionary of a place
+        examples:
+                {
+                    "name":"Big house", 
+                    "id":"iojewklfdscoielkjfdsm",
+                    "city_id":"lk213jiodsaifulkjewq",
+                    "created_at":"09/20/2021",
+                }
+    """
     place = storage.get(Place, place_id)
     if place is not None:
         place = place.to_dict()
@@ -38,7 +64,14 @@ def place_by_id(place_id=None):
 @app_views.route('/places/<place_id>', methods=["DELETE"],
                  strict_slashes=False)
 def delete_place(place_id=None):
-    """ Deletes state by given id """
+    """
+    Deletes place by given id 
+    ---
+    response:
+      200:
+        description: An empty dictionary
+        examples: {}
+    """
     place = storage.get(Place, place_id)
     if place is not None:
         storage.delete(place)
@@ -51,7 +84,21 @@ def delete_place(place_id=None):
 @app_views.route('/cities/<city_id>/places/',
                  methods=["POST"], strict_slashes=False)
 def post_place(city_id=None):
-    """ Creates given json obj in db with given id """
+    """
+    Creates given json obj in db with given id 
+    ---
+    response:
+      201:
+        description: Successfully creates the place, and returns a dictionary
+        example: {
+                  "__class__":"Place",
+                  "created_at":"2021-09-19T13:41:44.000000",
+                  "id":"9605f5f3-70c0-4b3a-a9ea-9f72c5773f88",
+                  "city_id":"9123f5f3-70c0-4b3a-a9ea-9f12321388",
+                  "name":"Big house",
+                  "updated_at":"2021-09-19T17:41:44.000000"
+                 }
+    """
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
@@ -74,7 +121,22 @@ def post_place(city_id=None):
 
 @app_views.route('/places/<place_id>', methods=["PUT"], strict_slashes=False)
 def put_place(place_id=None):
-    """ Updates a state object with the given id and json """
+    """
+    Updates a place object with the given id and json
+    ---
+    response:
+      201:
+        description: Successfully updated the place, and returns a dictionary
+        example:
+                {
+                    "__class__":"Place",
+                    "created_at":"2021-09-19T13:41:44.000000",
+                    "id":"9605f5f3-70c0-4b3a-a9ea-9f72c5773f88",
+                    "city_id":"9123f5f3-70c0-4b3a-a9ea-9f12321388",
+                    "name":"Big house",
+                    "updated_at":"2021-09-19T17:41:44.000000"
+                }
+    """ 
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)

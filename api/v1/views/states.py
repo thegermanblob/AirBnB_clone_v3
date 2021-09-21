@@ -10,13 +10,20 @@ from api.v1.views import app_views
 
 @app_views.route('/states/', methods=["GET"], strict_slashes=False)
 def states():
-    """display the states and cities listed in alphabetical order
+    """
+    Display the states listed in alphabetical order
     ---
     responses:
       200:
-        description: A list of states
+        description: A list of state dictionaries
         examples:
-          states: ['cali', 'Florida', 'Colorado']"""
+          states: 
+                [
+                    {"name":'Cali'},
+                    {"name":'Florida'},
+                    {"name":'Colorado'},
+                ]
+    """
     states = storage.all(State)
     new_dict = []
     for state in states:
@@ -27,7 +34,20 @@ def states():
 @app_views.route('/states/<state_id>', methods=["GET"],
                  strict_slashes=False)
 def state_by_id(state_id=None):
-    """ gets a state by the given state_id """
+    """
+    Gets a state by the given state_id 
+    ---
+    responses:
+      200:
+        description: A json dictionary of a state
+        examples: 
+                {
+                    "name":"Florida",
+                    "id":"lk213jiodsaifulkjewq",
+                    "created_at":"09/20/2021",
+                }
+    """
+
     state = storage.get(State, state_id)
     if state is not None:
         state = state.to_dict()
@@ -39,7 +59,14 @@ def state_by_id(state_id=None):
 @app_views.route('/states/<state_id>', methods=["DELETE"],
                  strict_slashes=False)
 def delete_state(state_id=None):
-    """ Deletes state by given id """
+    """
+    Deletes state by given id 
+    ---
+    response:
+      200:
+        description: An empty dictionary
+        examples: {}
+    """
     state = storage.get(State, state_id)
     if state is not None:
         storage.delete(state)
@@ -51,7 +78,20 @@ def delete_state(state_id=None):
 
 @app_views.route('/states/', methods=["POST"], strict_slashes=False)
 def post_state():
-    """ Creates given json obj in db with given id """
+    """
+    Creates given json obj in db with given id 
+    ---
+    response:
+      201:
+        description: Successfully creates the state,and returns a dictionary
+        example: {
+                  "__class__":"State",
+                  "created_at":"2021-09-19T13:41:44.000000",
+                  "id":"9605f5f3-70c0-4b3a-a9ea-9f72c5773f88",
+                  "name":"California",
+                  "updated_at":"2021-09-19T17:41:44.000000"
+                 }
+    """
     if request.is_json is False:
         return Response("Not a JSON", status=400)
     new_state_dict = request.get_json()
@@ -64,7 +104,21 @@ def post_state():
 
 @app_views.route('/states/<state_id>', methods=["PUT"], strict_slashes=False)
 def put_state(state_id=None):
-    """ Updates a state object with the given id and json"""
+    """
+    Updates a state object with the given id and json
+    ---
+    response:
+      201:
+        description: Successfully updated the state, and returns a dictionary
+        example:
+                {
+                    "__class__":"State",
+                    "created_at":"2021-09-19T13:41:44.000000",
+                    "id":"9605f5f3-70c0-4b3a-a9ea-9f72c5773f88",
+                    "name":"California",
+                    "updated_at":"2021-09-19T17:41:44.000000"
+                }
+    """
     state = storage.get(State, state_id)
     if state is None:
         abort(404)

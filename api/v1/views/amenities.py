@@ -10,7 +10,14 @@ from api.v1.views import app_views
 
 @app_views.route('/amenities/', methods=["GET"], strict_slashes=False)
 def amenities():
-    """display the amenities listed in alphabetical order"""
+    """display the amenities listed in alphabetical order
+    ---
+    responses:
+      200:
+        description: A list of amenities dictionaries
+        examples:
+          states: [{"name":'wifi'}, {"name":'bathrooms'}, {"name":'pool'}]
+    """
     amenities = storage.all(Amenity)
     new_dict = []
     for amenity in amenities:
@@ -21,7 +28,14 @@ def amenities():
 @app_views.route('/amenities/<amenity_id>', methods=["GET"],
                  strict_slashes=False)
 def amenity_by_id(amenity_id=None):
-    """ gets a amenity by the given amenity_id """
+    """ gets a amenity by the given amenity_id 
+    ---
+    responses:
+      200:
+        description: A json dictionary of an amenity
+        examples:
+          states: [{"name":'wifi'}]
+    """
     amenity = storage.get(Amenity, amenity_id)
     if amenity is not None:
         amenity = amenity.to_dict()
@@ -33,7 +47,13 @@ def amenity_by_id(amenity_id=None):
 @app_views.route('/amenities/<amenity_id>', methods=["DELETE"],
                  strict_slashes=False)
 def delete_amenity(amenity_id=None):
-    """ Deletes amenity by given id """
+    """ Deletes amenity by given id
+    ---
+    response:
+      200:
+        description: An empty dictionary
+        examples: {}
+    """
     amenity = storage.get(Amenity, amenity_id)
     if amenity is not None:
         storage.delete(amenity)
@@ -45,7 +65,19 @@ def delete_amenity(amenity_id=None):
 
 @app_views.route('/amenities/', methods=["POST"], strict_slashes=False)
 def post_amenity():
-    """ Creates given json obj in db with given id """
+    """ Creates given json obj in db with given id 
+    ---
+    response:
+      201:
+        description: Successfully creates the amenity,and returns a dictionary
+        example: {
+                  "__class__":"Amenity",
+                  "created_at":"2021-09-19T13:41:44.000000",
+                  "id":"9605f5f3-70c0-4b3a-a9ea-9f72c5773f88",
+                  "name":"wi-fi",
+                  "updated_at":"2021-09-19T17:41:44.000000"
+                 }
+    """
     if request.is_json is False:
         return Response("Not a JSON", status=400)
     new_amenity_dict = request.get_json()
@@ -59,7 +91,19 @@ def post_amenity():
 @app_views.route('/amenities/<amenity_id>', methods=["PUT"],
                  strict_slashes=False)
 def put_amenity(amenity_id=None):
-    """ Updates a amenity object with the given id and json """
+    """ Updates a amenity object with the given id and json
+    ---
+    response:
+      201:
+           description: Successfully updated the amenity, and returns a dictionary
+           example: {
+                      "__class__":"Amenity",
+                      "created_at":"2021-09-19T13:41:44.000000",
+                      "id":"9605f5f3-70c0-4b3a-a9ea-9f72c5773f88",
+                      "name":"Wi-fi",
+                      "updated_at":"2021-09-19T17:41:44.000000"
+                    }
+    """ 
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)

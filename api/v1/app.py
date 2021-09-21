@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flasgger import Swagger
 
 app = Flask(__name__)
-swagger =Swagger(app)
+swagger = Swagger(app)
 app.register_blueprint(app_views)
 CORS(app, resources={"/*": {"origins": ["0.0.0.0"]}})
 
@@ -23,6 +23,7 @@ def teardown(exception=None):
 def page_not_found(exception=None):
     """Display an jsonify error"""
     return jsonify({"error": "Not found"}), 404
+
 
 if __name__ == '__main__':
     """Execute api"""
